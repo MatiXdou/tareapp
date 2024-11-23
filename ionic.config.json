@@ -1,0 +1,7 @@
+{
+  "name": "tareapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
