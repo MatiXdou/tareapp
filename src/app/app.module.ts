@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -14,7 +15,13 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideFirebaseApp(() => initializeApp({})), provideAuth(() => getAuth()), provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideFirestore(() => getFirestore())],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    provideAnalytics(() => getAnalytics()),
+    ScreenTrackingService,
+    UserTrackingService,
+    provideFirestore(() => getFirestore())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

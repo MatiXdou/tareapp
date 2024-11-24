@@ -7,13 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { InicioPageRoutingModule } from './inicio-routing.module';
 
 import { InicioPage } from './inicio.page';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InicioPageRoutingModule
+    InicioPageRoutingModule,
+    RouterModule,
+    SharedModule,
   ],
   declarations: [InicioPage]
 })

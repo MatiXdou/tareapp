@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registrar.page.scss'],
 })
 export class RegistrarPage implements OnInit {
+  fullName: string = '';
+  user: string = '';
+  email: string = '';
+  password: string = '';
+  cargando: boolean = false;
+
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

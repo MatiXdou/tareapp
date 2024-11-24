@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./iniciar-sesion.page.scss'],
 })
 export class IniciarSesionPage implements OnInit {
+  email: string = '';
+  password: string = '';
+  cargando: boolean = false;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

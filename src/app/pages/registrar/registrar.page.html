@@ -1,13 +1,41 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registrar</ion-title>
+<ion-content>
+  <app-header></app-header>
+  <ion-toolbar class="back-btn" color="transparent" translucent>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registrar</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  @if (cargando) {
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  }
+
+  <h1 style="text-align: center">Registrarse</h1>
+
+  <ion-list [inset]="true">
+    <!-- Campo de nombre completo -->
+    <ion-item color="light">
+      <ion-input [(ngModel)]="fullName" type="text" label="Nombre completo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su nombre completo"></ion-input>
+    </ion-item>
+
+    <!-- Campo de usuario -->
+    <ion-item color="light">
+      <ion-input [(ngModel)]="user" type="text" label="Usuario: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese un nombre de usuario"></ion-input>
+    </ion-item>
+
+    <!-- Campo de correo -->
+    <ion-item color="light">
+      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
+    </ion-item>
+
+    <!-- Campo de contraseña -->
+    <ion-item color="light">
+      <ion-input [(ngModel)]="password" type="password" label="Contraseña: " labelPlacement="floating" fill="outline" [clearInput]="true" [clearOnEdit]="false" placeholder="Ingrese su contraseña"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-text-center">
+    <!-- Botón de registro -->
+    <ion-button size="default" fill="outline" shape="round" type="submit" [disabled]="!fullName || !user || !email || !password">Registrarse</ion-button>
+  </div>
 </ion-content>

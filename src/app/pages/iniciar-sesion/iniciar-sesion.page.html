@@ -1,13 +1,34 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>iniciar-sesion</ion-title>
+<ion-content>
+  <app-header></app-header>
+  <ion-toolbar class="back-btn" color="transparent" translucent>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">iniciar-sesion</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  @if (cargando) {
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  }
+
+  <h1 style="text-align: center">Iniciar Sesión</h1>
+
+
+  <ion-list [inset]="true">
+    <ion-item color="light">
+      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
+    </ion-item>
+    <ion-item color="light">
+      <ion-input [(ngModel)]="password" type="password" label="Contraseña: " labelPlacement="floating" fill="outline" [clearInput]="true" [clearOnEdit]="false" placeholder="Ingrese su contraseña"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-text-center">
+    <ion-button size="default" fill="outline" shape="round" type="submit" [disabled]="!email || !password">Iniciar Sesión</ion-button>
+  </div>
+
+
+
+
+
 </ion-content>
