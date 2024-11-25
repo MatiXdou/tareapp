@@ -27,8 +27,8 @@ export class InicioPage implements OnInit {
       await this.mostrarMensaje('Exito', 'Inicio de sesion exitoso.');
       this.router.navigate(['/tareas-pend']);
     } catch (error) {
-      await this.mostrarMensaje('Error', 'Error al iniciar sesión con Google.');
       this.cargando = false;
+      await this.mostrarMensaje('Error', 'Error al iniciar sesión con Google.');
     }
   }
 
@@ -40,6 +40,7 @@ export class InicioPage implements OnInit {
       await this.mostrarMensaje('Exito', 'Inicio de sesión como invitado exitoso.');
       this.router.navigate(['/tareas-pend']);
     } catch (error) {
+      this.cargando = false;
       await this.mostrarMensaje('Error', 'Error al iniciar sesión como invitado.');
     }
   }

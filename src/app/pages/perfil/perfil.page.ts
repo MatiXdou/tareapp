@@ -49,14 +49,31 @@ export class PerfilPage implements OnInit {
     }
   }
 
-  async deleteAccount() {
-    try {
-      const message = await this.firestoreService.deleteUserAccount();
-      await this.mostrarMensaje('Exito', message);
-      this.router.navigate(['/inicio']);
-    } catch (error) {
-      await this.mostrarMensaje('Error', 'Error al eliminar la cuenta.');
-    }
+  async borrarCuenta() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Eliminación',
+      message: '¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            try {
+              const message = await this.firestoreService.deleteUserAccount();
+              await this.mostrarMensaje('Exito', message);
+              this.router.navigate(['/inicio']);
+            } catch (error) {
+              await this.mostrarMensaje('Error', 'Error al eliminar la cuenta.');
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async mostrarMensaje(cabecera: string, mensaje: string) {
