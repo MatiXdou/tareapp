@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PerfilPageRoutingModule } from './perfil-routing.module';
+import { RecuperarContraPageRoutingModule } from './recuperar-contra-routing.module';
 
-import { PerfilPage } from './perfil.page';
+import { RecuperarContraPage } from './recuperar-contra.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPageRoutingModule,
+    RecuperarContraPageRoutingModule,
     SharedModule,
   ],
-  declarations: [PerfilPage]
+  declarations: [RecuperarContraPage]
 })
-export class PerfilPageModule {}
+export class RecuperarContraPageModule {}

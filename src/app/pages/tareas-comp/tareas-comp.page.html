@@ -1,7 +1,11 @@
 <ion-content>
   <app-header></app-header>
   <div class="ion-text-center">
-    <ion-title>Bienvenido<br>usuario</ion-title>
+    <div class="titulo">
+      <h3>
+        Tareas Completadas:
+      </h3>
+    </div>
     <ion-list [inset]="true">
       <ion-item-sliding color="light">
         <ion-item>
@@ -12,18 +16,12 @@
             <ion-card-content>
               Here's a small text description for the card content. Nothing more, nothing less.
             </ion-card-content>
-
-            <ion-button fill="clear">Completada</ion-button>
-            <ion-button fill="clear" color="danger">Eliminar</ion-button>
           </ion-card>
         </ion-item>
 
         <ion-item-options slot="end">
-          <ion-item-option color="warning">
-            <ion-icon slot="icon-only" name="pin"></ion-icon>
-          </ion-item-option>
-          <ion-item-option color="tertiary">
-            <ion-icon slot="icon-only" name="share"></ion-icon>
+          <ion-item-option color="success">
+            <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
           </ion-item-option>
           <ion-item-option color="danger" expandable="true">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
@@ -32,10 +30,4 @@
       </ion-item-sliding>
     </ion-list>
   </div>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
 </ion-content>

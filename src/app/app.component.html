@@ -5,7 +5,34 @@
         <ion-title>Menú</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">This is the menu content.</ion-content>
+    <ion-content class="ion-padding">
+      <div class="perfil-logo ion-text-center" *ngIf="!isGuest">
+        <ion-icon class="perfil-icon" slot="icon-only" name="person-circle-outline"></ion-icon>
+        <ion-menu-toggle auto-hide="true">
+          <ion-button class="perfil-boton" fill="clear" shape="round" [routerLink]="['/perfil']">
+            Ver Perfil
+          </ion-button>
+        </ion-menu-toggle>
+      </div>
+      <ion-list lines="full">
+        <ion-menu-toggle auto-hide="true">
+          <ion-item [button]="true" [routerLink]="['/tareas-pend']">
+            <ion-label>Tareas Pendientes</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item [button]="true" [routerLink]="['/tareas-comp']">
+            <ion-label>Tareas Completadas</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item [button]="true" (click)="onLogout()">
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+
+    </ion-content>
   </ion-menu>
 
   <ion-router-outlet id="main-content"></ion-router-outlet>

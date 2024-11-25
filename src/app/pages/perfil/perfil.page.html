@@ -1,13 +1,30 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>perfil</ion-title>
+<ion-content>
+  <app-header></app-header>
+  <ion-toolbar class="back-btn" color="transparent" translucent>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/tareas-pend"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-title class="titulo ion-text-center">Informacion de su Perfil:</ion-title>
+
+  <div class="informacion">
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          <strong>Nombre completo:</strong> {{ userData?.fullName }}
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <strong>Correo:</strong> {{ userData?.email }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-text-center botones">
+      <ion-button color="primary" fill="solid" (click)="resetPassword()">Restablecer Contraseña</ion-button>
+      <ion-button color="danger" fill="solid" (click)="deleteAccount()">Eliminar Cuenta</ion-button>
+    </div>
+  </div>
 </ion-content>

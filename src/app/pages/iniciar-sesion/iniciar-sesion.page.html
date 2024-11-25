@@ -6,29 +6,29 @@
     </ion-buttons>
   </ion-toolbar>
 
-
-  @if (cargando) {
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-  }
-
   <h1 style="text-align: center">Iniciar Sesión</h1>
 
-
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" lines="none">
     <ion-item color="light">
-      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
+      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="stacked" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
     </ion-item>
     <ion-item color="light">
-      <ion-input [(ngModel)]="password" type="password" label="Contraseña: " labelPlacement="floating" fill="outline" [clearInput]="true" [clearOnEdit]="false" placeholder="Ingrese su contraseña"></ion-input>
+      <ion-input [(ngModel)]="password" type="password" label="Contraseña: " labelPlacement="stacked" fill="outline" [clearInput]="true" [clearOnEdit]="false" placeholder="Ingrese su contraseña">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
     </ion-item>
   </ion-list>
 
   <div class="ion-text-center">
-    <ion-button size="default" fill="outline" shape="round" type="submit" [disabled]="!email || !password">Iniciar Sesión</ion-button>
+    <ion-button (click)="login()" size="default" fill="outline" shape="round" type="submit" [disabled]="!email || !password">Iniciar Sesión</ion-button>
   </div>
 
+  <div class="ion-text-center">
+  <ion-button size="default" fill="clear" shape="round" [routerLink]="['/recuperar-contra']">Recuperar Contraseña</ion-button>
+  </div>
 
-
-
+  @if (cargando) {
+    <ion-progress-bar type="indeterminate" style="margin: 0 0 10px 0;"></ion-progress-bar>
+  }
 
 </ion-content>

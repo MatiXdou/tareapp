@@ -6,36 +6,29 @@
     </ion-buttons>
   </ion-toolbar>
 
-  @if (cargando) {
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-  }
-
   <h1 style="text-align: center">Registrarse</h1>
 
-  <ion-list [inset]="true">
-    <!-- Campo de nombre completo -->
+  <ion-list [inset]="true" lines="none">
     <ion-item color="light">
-      <ion-input [(ngModel)]="fullName" type="text" label="Nombre completo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su nombre completo"></ion-input>
+      <ion-input [(ngModel)]="fullName" type="text" label="Nombre completo: " labelPlacement="stacked" fill="outline" [clearInput]="true" placeholder="Ingrese su nombre completo"></ion-input>
     </ion-item>
 
-    <!-- Campo de usuario -->
     <ion-item color="light">
-      <ion-input [(ngModel)]="user" type="text" label="Usuario: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese un nombre de usuario"></ion-input>
+      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="stacked" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
     </ion-item>
 
-    <!-- Campo de correo -->
     <ion-item color="light">
-      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
-    </ion-item>
-
-    <!-- Campo de contraseña -->
-    <ion-item color="light">
-      <ion-input [(ngModel)]="password" type="password" label="Contraseña: " labelPlacement="floating" fill="outline" [clearInput]="true" [clearOnEdit]="false" placeholder="Ingrese su contraseña"></ion-input>
+      <ion-input [(ngModel)]="password" type="password" label="Contraseña: " labelPlacement="stacked" fill="outline" [clearInput]="true" [clearOnEdit]="false" placeholder="Ingrese su contraseña">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
     </ion-item>
   </ion-list>
 
   <div class="ion-text-center">
-    <!-- Botón de registro -->
-    <ion-button size="default" fill="outline" shape="round" type="submit" [disabled]="!fullName || !user || !email || !password">Registrarse</ion-button>
+    <ion-button (click)="register()" size="default" fill="outline" shape="round" type="submit" [disabled]="!fullName || !email || !password">Registrarse</ion-button>
   </div>
+
+  @if (cargando) {
+    <ion-progress-bar type="indeterminate" style="margin: 0 0 10px 0;"></ion-progress-bar>
+  }
 </ion-content>

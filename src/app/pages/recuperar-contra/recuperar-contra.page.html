@@ -1,0 +1,25 @@
+<ion-content>
+  <app-header></app-header>
+  <ion-toolbar class="back-btn" color="transparent" translucent>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/login"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <h1 class="ion-text-center">Recuperar Contraseña</h1>
+
+  <ion-list [inset]="true" lines="none">
+    <!-- Campo de correo -->
+    <ion-item color="light">
+      <ion-input [(ngModel)]="email" type="email" label="Correo: " labelPlacement="floating" fill="outline" [clearInput]="true" placeholder="Ingrese su correo"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-text-center">
+    <ion-button (click)="recoverPassword()" size="default" fill="outline" shape="round" type="submit" [disabled]="!email">Enviar Correo de Recuperación</ion-button>
+  </div>
+
+  @if (cargando) {
+    <ion-progress-bar type="indeterminate" style="margin: 0 0 10px 0;"></ion-progress-bar>
+  }
+</ion-content>

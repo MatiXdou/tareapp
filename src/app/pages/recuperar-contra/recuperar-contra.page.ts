@@ -4,32 +4,31 @@ import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/firebase/auth.service';
 
 @Component({
-  selector: 'app-registrar',
-  templateUrl: './registrar.page.html',
-  styleUrls: ['./registrar.page.scss'],
+  selector: 'app-recuperar-contra',
+  templateUrl: './recuperar-contra.page.html',
+  styleUrls: ['./recuperar-contra.page.scss'],
 })
-export class RegistrarPage implements OnInit {
-  fullName: string = '';
+export class RecuperarContraPage implements OnInit {
   email: string = '';
-  password: string = '';
   cargando: boolean = false;
-  error: string = '';
 
   private alertController = inject(AlertController);
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() { }
 
-  async register() {
+  async recoverPassword() {
     this.cargando = true;
     try {
-      await this.authService.register(this.fullName, this.email, this.password);
-      await this.mostrarMensaje('Exito', 'Usuario registrado exitosamente.');
-      this.router.navigate(['/tareas-pend']);
+      await this.authService.resetPassword(this.email);
+      await this.mostrarMensaje('Exito', 'Se ha enviado el correo de recuperacion.');
+      this.router.navigate(['/inicio']);
     } catch (error) {
-      this.error = this.authService.GenError(error);
-      await this.mostrarMensaje('Exito', this.error);
+      await this.mostrarMensaje('Error', 'Error al enviar el correo de recuperación.');
     } finally {
       this.cargando = false;
     }
