@@ -7,23 +7,20 @@
       </h3>
     </div>
     <ion-list [inset]="true">
-      <ion-item-sliding color="light">
+      <ion-item-sliding color="light" *ngFor="let tarea of tareasCompletadas$ | async">
         <ion-item>
           <ion-card [button]="true">
             <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
+              <ion-card-title>{{ tarea.titulo }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
+              {{ tarea.descripcion }}
             </ion-card-content>
           </ion-card>
         </ion-item>
 
         <ion-item-options slot="end">
-          <ion-item-option color="success">
-            <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
-          </ion-item-option>
-          <ion-item-option color="danger" expandable="true">
+          <ion-item-option color="danger" expandable="true" (click)="eliminarTarea(tarea.id)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-item-option>
         </ion-item-options>

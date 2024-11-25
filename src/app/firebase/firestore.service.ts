@@ -1,13 +1,21 @@
 import { Injectable, Injector  } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, setDoc, where, query } from '@angular/fire/firestore';
+import { collection, deleteDoc, doc, Firestore, getDoc, setDoc, where, query, addDoc, onSnapshot, collectionData, updateDoc } from '@angular/fire/firestore';
 import { Tareas } from '../models/Tareas.models';
 import { AuthService } from './auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
+  private tareasPendientesSubject = new BehaviorSubject<Tareas[]>([]);
+  public tareasPendientes$ = this.tareasPendientesSubject.asObservable();
+
+  private tareasCompletadasSubject = new BehaviorSubject<Tareas[]>([]);
+  public tareasCompletadas$ = this.tareasCompletadasSubject.asObservable();
+
+
   private authService: AuthService;
   constructor(private firestore: Firestore, private auth: Auth, private injector: Injector) {
     setTimeout(() => {
@@ -69,24 +77,41 @@ export class FirestoreService {
     }
   }
 
-  async getTareas(): Promise<Tareas[]> {
+  getTareasByEstado(estado: string): Observable<Tareas[]> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
       throw new Error('No hay un usuario autenticado');
     }
 
     const tareasRef = collection(this.firestore, 'tareas');
-    const q = query(tareasRef, where('userId', '==', currentUser.uid));
-    const querySnapshot = await getDocs(q);
+    const q = query(
+      tareasRef,
+      where('userId', '==', currentUser.uid),
+      where('estado', '==', estado)
+    );
 
-    const tareas: Tareas[] = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data() as Tareas;
-      data.id = doc.id;
-      tareas.push(data);
-    });
+    // Retorna los datos como un Observable
+    return collectionData(q, { idField: 'id' }) as Observable<Tareas[]>;
+  }
 
-    return tareas;
+  async addTarea(tarea: Tareas): Promise<void> {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      throw new Error('No hay un usuario autenticado');
+    }
+    tarea.userId = currentUser.uid;
+    const tareasRef = collection(this.firestore, 'tareas');
+    await addDoc(tareasRef, tarea);
+  }
+
+  async actualizarTareaEstado(tareaId: string, nuevoEstado: string): Promise<void> {
+    const tareaRef = doc(this.firestore, `tareas/${tareaId}`);
+    await updateDoc(tareaRef, { estado: nuevoEstado });
+  }
+
+  async eliminarTarea(tareaId: string): Promise<void> {
+    const tareaRef = doc(this.firestore, `tareas/${tareaId}`);
+    await deleteDoc(tareaRef);
   }
 
 }

@@ -6,5 +6,23 @@
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-title class="ion-text-center">Pagina add-tarea</ion-title>
+  <div class="ion-padding">
+    <ion-title class="ion-text-center">Añadir Tarea</ion-title>
+
+    <form (submit)="addTarea()">
+      <ion-item>
+        <ion-label position="stacked">Título</ion-label>
+        <ion-input [(ngModel)]="titulo" name="titulo" placeholder="Ingrese el título"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea [(ngModel)]="descripcion" name="descripcion" placeholder="Ingrese la descripción"></ion-textarea>
+      </ion-item>
+
+      <div class="ion-margin-top ion-text-center">
+        <ion-button expand="block" type="submit" [disabled]="!titulo || !descripcion">Añadir Tarea</ion-button>
+      </div>
+    </form>
+  </div>
 </ion-content>
