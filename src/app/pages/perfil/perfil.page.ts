@@ -62,7 +62,7 @@ export class PerfilPage implements OnInit {
           text: 'Eliminar',
           handler: async () => {
             try {
-              const message = await this.firestoreService.deleteUserAccount();
+              const message = await this.authService.deleteUserAccount();
               await this.mostrarMensaje('Exito', message);
               this.router.navigate(['/inicio']);
             } catch (error) {

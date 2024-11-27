@@ -6,7 +6,12 @@
         Tareas Pendientes:
       </h3>
     </div>
-    <ion-list [inset]="true">
+
+    <div *ngIf="(tareasPendientes$ | async)?.length === 0" class="ion-padding">
+      <p>No hay tareas pendientes.</p>
+    </div>
+
+    <ion-list [inset]="true" *ngIf="(tareasPendientes$ | async)?.length > 0" [inset]="true">
       <ion-item-sliding color="light" *ngFor="let tarea of tareasPendientes$ | async">
         <ion-item>
           <ion-card [button]="true">
@@ -31,7 +36,7 @@
     </ion-list>
   </div>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button [routerLink]="['/add-tarea']">
+    <ion-fab-button color="primary" [routerLink]="['/add-tarea']">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

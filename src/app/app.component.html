@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu side="end" contentId="main-content" type="overlay">
+  <ion-menu side="end" contentId="main-content" type="overlay"  [swipeGesture]="isAuthenticated">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>Menú</ion-title>
@@ -25,8 +25,13 @@
             <ion-label>Tareas Completadas</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-menu-toggle auto-hide="true">
+        <ion-menu-toggle auto-hide="true" *ngIf="!isGuest">
           <ion-item [button]="true" (click)="onLogout()">
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="true" *ngIf="isGuest">
+          <ion-item [button]="true" (click)="borrarCuenta()">
             <ion-label>Cerrar Sesión</ion-label>
           </ion-item>
         </ion-menu-toggle>

@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/firebase/auth.service';
 import { FirestoreService } from 'src/app/firebase/firestore.service';
 import { Tareas } from 'src/app/models/Tareas.models';
 
@@ -9,15 +10,22 @@ import { Tareas } from 'src/app/models/Tareas.models';
   templateUrl: './tareas-pend.page.html',
   styleUrls: ['./tareas-pend.page.scss'],
 })
-export class TareasPendPage implements OnInit {
-  tareasPendientes$: Observable<Tareas[]>;
+export class TareasPendPage implements OnInit, OnDestroy {
+  tareasPendientes$: Observable<Tareas[]> | null = null;
+  private userSubscription: Subscription | null = null;
 
   private alertController = inject(AlertController);
 
-  constructor(private firestoreService: FirestoreService) {}
+  constructor(private firestoreService: FirestoreService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.tareasPendientes$ = this.firestoreService.getTareasByEstado('pendiente');
+    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.tareasPendientes$ = this.firestoreService.getTareasByEstado('pendiente', user.uid);
+      } else {
+        this.tareasPendientes$ = null;
+      }
+    });
   }
 
   async completarTarea(tareaId: string) {
@@ -61,6 +69,12 @@ export class TareasPendPage implements OnInit {
       buttons: ['Entendido']
     });
     await alert.present();
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
 

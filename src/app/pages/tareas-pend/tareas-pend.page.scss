@@ -6,3 +6,7 @@
 ion-card {
   width: 100%;
 }
+
+ion-fab-button::part(native) {
+  border-radius: 15px;
+}

@@ -23,11 +23,10 @@ export class FirestoreService {
     });
   }
 
-  async saveUserData(uid: string, userData: { email: string; fullName: string; user: string }): Promise<void> {
+  async saveUserData(uid: string, userData: { email: string; fullName: string; }): Promise<void> {
     try {
       const userDoc = doc(this.firestore, 'users', uid);
       await setDoc(userDoc, userData, { merge: true });
-      console.log('Datos del usuario guardados/actualizados correctamente.');
     } catch (error) {
       console.error('Error al guardar los datos del usuario:', error);
       throw error;
@@ -58,26 +57,7 @@ export class FirestoreService {
     }
   }
 
-  async deleteUserAccount() {
-    const user = this.auth.currentUser;
-
-    if (user) {
-      try {
-        const userDoc = doc(this.firestore, 'users', user.uid);
-        await deleteDoc(userDoc);
-
-        await user.delete();
-        return 'Cuenta eliminada exitosamente';
-      } catch (error) {
-        console.error('Error al eliminar la cuenta:', error);
-        throw error;
-      }
-    } else {
-      throw new Error('No hay un usuario autenticado');
-    }
-  }
-
-  getTareasByEstado(estado: string): Observable<Tareas[]> {
+  getTareasByEstado(estado: string, userId: string): Observable<Tareas[]> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
       throw new Error('No hay un usuario autenticado');
@@ -86,11 +66,10 @@ export class FirestoreService {
     const tareasRef = collection(this.firestore, 'tareas');
     const q = query(
       tareasRef,
-      where('userId', '==', currentUser.uid),
+      where('userId', '==', userId),
       where('estado', '==', estado)
     );
 
-    // Retorna los datos como un Observable
     return collectionData(q, { idField: 'id' }) as Observable<Tareas[]>;
   }
 

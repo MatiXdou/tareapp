@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RedirectIfAuthGuard } from './guards/redirect-if-auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'inicio',
-    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
+    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule),
+    canActivate: [RedirectIfAuthGuard],
   },
   {
     path: 'iniciar-sesion',
@@ -16,19 +19,23 @@ const routes: Routes = [
   },
   {
     path: 'tareas-pend',
-    loadChildren: () => import('./pages/tareas-pend/tareas-pend.module').then( m => m.TareasPendPageModule)
+    loadChildren: () => import('./pages/tareas-pend/tareas-pend.module').then( m => m.TareasPendPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'tareas-comp',
-    loadChildren: () => import('./pages/tareas-comp/tareas-comp.module').then( m => m.TareasCompPageModule)
+    loadChildren: () => import('./pages/tareas-comp/tareas-comp.module').then( m => m.TareasCompPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'add-tarea',
-    loadChildren: () => import('./pages/add-tarea/add-tarea.module').then( m => m.AddTareaPageModule)
+    loadChildren: () => import('./pages/add-tarea/add-tarea.module').then( m => m.AddTareaPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'not-found',

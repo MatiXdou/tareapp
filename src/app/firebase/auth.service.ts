@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInAnonymously, signInWithEmailAndPassword, signInWithPopup, User, UserCredential } from '@angular/fire/auth';
 import { FirestoreService } from './firestore.service';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, deleteDoc, doc, Firestore, getDocs, query, setDoc, where } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -36,7 +36,6 @@ export class AuthService {
         const userData = {
           email: user.email || '',
           fullName: user.displayName || '',
-          user: user.uid,
         };
         await this.firestoreService.saveUserData(user.uid, userData);
       }
@@ -58,7 +57,6 @@ export class AuthService {
         await setDoc(userDoc, {
           fullName: 'Invitado',
           email: null,
-          user: user.uid,
         });
       }
 
@@ -77,6 +75,7 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await this.auth.signOut();
+      this.currentUserSubject.next(null);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       throw error;
@@ -107,7 +106,6 @@ export class AuthService {
         await setDoc(userDoc, {
           fullName,
           email,
-          user: user.uid,
         });
       }
       return userCredential;
@@ -117,8 +115,42 @@ export class AuthService {
     }
   }
 
+  async deleteUserAccount() {
+    const user = this.auth.currentUser;
+
+    if (user) {
+      try {
+        const tareasRef = collection(this.firestore, 'tareas');
+        const q = query(tareasRef, where('userId', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+
+        const deletePromises = querySnapshot.docs.map((docSnapshot) => deleteDoc(doc(this.firestore, 'tareas', docSnapshot.id)));
+        await Promise.all(deletePromises);
+
+        const userDoc = doc(this.firestore, 'users', user.uid);
+        await deleteDoc(userDoc);
+
+        await user.delete();
+        return 'Cuenta eliminada exitosamente';
+      } catch (error) {
+        console.error('Error al eliminar la cuenta:', error);
+        throw error;
+      }
+    } else {
+      throw new Error('No hay un usuario autenticado');
+    }
+  }
+
   getCurrentUser(): User | null {
     return this.currentUserSubject.getValue();
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.auth.onAuthStateChanged((user) => {
+        resolve(!!user);
+      });
+    });
   }
 
   GenError(tipo: any){

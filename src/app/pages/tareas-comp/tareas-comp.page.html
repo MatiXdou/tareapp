@@ -6,7 +6,12 @@
         Tareas Completadas:
       </h3>
     </div>
-    <ion-list [inset]="true">
+
+    <div *ngIf="(tareasCompletadas$ | async)?.length === 0" class="ion-padding">
+      <p>No hay tareas completadas.</p>
+    </div>
+
+    <ion-list [inset]="true" *ngIf="(tareasCompletadas$ | async)?.length > 0" [inset]="true">
       <ion-item-sliding color="light" *ngFor="let tarea of tareasCompletadas$ | async">
         <ion-item>
           <ion-card [button]="true">

@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/firebase/auth.service';
 import { FirestoreService } from 'src/app/firebase/firestore.service';
 import { Tareas } from 'src/app/models/Tareas.models';
 
@@ -9,15 +10,22 @@ import { Tareas } from 'src/app/models/Tareas.models';
   templateUrl: './tareas-comp.page.html',
   styleUrls: ['./tareas-comp.page.scss'],
 })
-export class TareasCompPage implements OnInit {
-  tareasCompletadas$: Observable<Tareas[]>;
+export class TareasCompPage implements OnInit, OnDestroy {
+  tareasCompletadas$: Observable<Tareas[]> | null = null;
+  private userSubscription: Subscription | null = null;
 
   private alertController = inject(AlertController);
 
-  constructor(private firestoreService: FirestoreService) {}
+  constructor(private firestoreService: FirestoreService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.tareasCompletadas$ = this.firestoreService.getTareasByEstado('completada');
+    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.tareasCompletadas$ = this.firestoreService.getTareasByEstado('completada', user.uid);
+      } else {
+        this.tareasCompletadas$ = null;
+      }
+    });
   }
 
   async ConfirmEliminarTarea(tareaId: string) {
@@ -52,6 +60,12 @@ export class TareasCompPage implements OnInit {
       buttons: ['Entendido']
     });
     await alert.present();
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
 }
